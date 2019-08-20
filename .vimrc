@@ -109,3 +109,4 @@ let g:pymode_rope_goto_definition_bind = "<C-]>"
 let g:pymode_lint = 1
 let g:pymode_lint_checkers = ['pyflakes', 'pep8', 'mccabe', 'pylint']
 let g:pymode_options_max_line_length = 120
+"test ssh login
