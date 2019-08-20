@@ -110,3 +110,4 @@ let g:pymode_lint = 1
 let g:pymode_lint_checkers = ['pyflakes', 'pep8', 'mccabe', 'pylint']
 let g:pymode_options_max_line_length = 120
 "edit by raspberry Pi for testing git remote
+"add another thing
