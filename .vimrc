@@ -1,3 +1,23 @@
+" __  __               _
+"|  \/  |_   _  __   _(_)_ __ ___  _ __ ___
+"| |\/| | | | | \ \ / / | '_ ` _ \| '__/ __|
+"| |  | | |_| |  \ V /| | | | | | | | | (__
+"|_|  |_|\__, |   \_/ |_|_| |_| |_|_|  \___|
+"        |___/
+"
+"  ____          _          _   _           
+" / ___|___   __| | ___  __| | | |__  _   _ 
+"| |   / _ \ / _` |/ _ \/ _` | | '_ \| | | |
+"| |__| (_) | (_| |  __/ (_| | | |_) | |_| |
+" \____\___/ \__,_|\___|\__,_| |_.__/ \__, |
+"                                     |___/ 
+"
+"__        ___    _   _  ____   _____ _                         
+"\ \      / / \  | \ | |/ ___| |_   _(_) __ _ _ __  _   _ _   _ 
+" \ \ /\ / / _ \ |  \| | |  _    | | | |/ _` | '_ \| | | | | | |
+"  \ V  V / ___ \| |\  | |_| |   | | | | (_| | | | | |_| | |_| |
+"   \_/\_/_/   \_\_| \_|\____|   |_| |_|\__,_|_| |_|\__, |\__,_|
+"                                                   |___/       
 "设置LEADER键为空格键
 let mapleader=" "
 "设置行号
@@ -26,12 +46,12 @@ set smartcase
 set showcmd
 "设置普通模式下：命令 可以tab补全
 set wildmenu
-"分屏快捷键映射
 
 noremap J 5j
 noremap K 5k
 noremap H 0
 noremap L $
+"分屏快捷键映射
 map sl :set splitright<CR>:vsplit<CR>
 map sh :set nosplitright<CR>:vsplit<CR>
 map sk :set nosplitbelow<CR>:split<CR>
@@ -134,7 +154,7 @@ filetype off                  " required
 set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
 " alternatively, pass a path where Vundle should install plugins
-"call vundle#begin('~/some/path/here')
+" call vundle#begin('~/some/path/here')
 " let Vundle manage Vundle, required
 Plugin 'VundleVim/Vundle.vim'
 Plugin 'ycm-core/YouCompleteMe'
