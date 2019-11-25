@@ -1,9 +1,18 @@
+<<<<<<< HEAD
 " __  __               _                    
 "|  \/  |_   _  __   _(_)_ __ ___  _ __ ___ 
 "| |\/| | | | | \ \ / / | '_ ` _ \| '__/ __|
 "| |  | | |_| |  \ V /| | | | | | | | | (__ 
 "|_|  |_|\__, |   \_/ |_|_| |_| |_|_|  \___|
 "        |___/                              
+=======
+" __  __               _
+"|  \/  |_   _  __   _(_)_ __ ___  _ __ ___
+"| |\/| | | | | \ \ / / | '_ ` _ \| '__/ __|
+"| |  | | |_| |  \ V /| | | | | | | | | (__
+"|_|  |_|\__, |   \_/ |_|_| |_| |_|_|  \___|
+"        |___/
+>>>>>>> cb714139f58e4e18a13a60e12d0b7846a07c023e
 "
 "  ____          _          _   _           
 " / ___|___   __| | ___  __| | | |__  _   _ 
@@ -12,12 +21,21 @@
 " \____\___/ \__,_|\___|\__,_| |_.__/ \__, |
 "                                     |___/ 
 "
+<<<<<<< HEAD
 "__        __                  _____ _                         
 "\ \      / /_ _ _ __   __ _  |_   _(_) __ _ _ __  _   _ _   _ 
 " \ \ /\ / / _` | '_ \ / _` |   | | | |/ _` | '_ \| | | | | | |
 "  \ V  V / (_| | | | | (_| |   | | | | (_| | | | | |_| | |_| |
 "   \_/\_/ \__,_|_| |_|\__, |   |_| |_|\__,_|_| |_|\__, |\__,_|
 "                      |___/                       |___/       
+=======
+"__        ___    _   _  ____   _____ _                         
+"\ \      / / \  | \ | |/ ___| |_   _(_) __ _ _ __  _   _ _   _ 
+" \ \ /\ / / _ \ |  \| | |  _    | | | |/ _` | '_ \| | | | | | |
+"  \ V  V / ___ \| |\  | |_| |   | | | | (_| | | | | |_| | |_| |
+"   \_/\_/_/   \_\_| \_|\____|   |_| |_|\__,_|_| |_|\__, |\__,_|
+"                                                   |___/       
+>>>>>>> cb714139f58e4e18a13a60e12d0b7846a07c023e
 "设置LEADER键为空格键
 let mapleader=" "
 "设置行号
@@ -46,13 +64,17 @@ set smartcase
 set showcmd
 "设置普通模式下：命令 可以tab补全
 set wildmenu
+<<<<<<< HEAD
 "分屏快捷键映射
 autocmd CompleteDone * pclose
+=======
+>>>>>>> cb714139f58e4e18a13a60e12d0b7846a07c023e
 
 noremap J 5j
 noremap K 5k
 noremap H 0
 noremap L $
+"分屏快捷键映射
 map sl :set splitright<CR>:vsplit<CR>
 map sh :set nosplitright<CR>:vsplit<CR>
 map sk :set nosplitbelow<CR>:split<CR>
@@ -132,8 +154,13 @@ Plug 'connorholyday/vim-snazzy'
 Plug 'scrooloose/nerdtree'
 " Plug 'ncm2/ncm2'
 " Plug 'roxma/nvim-yarp'
+<<<<<<< HEAD
 " Plug 'python-mode/python-mode',{'for': 'python','branch': 'develop'}
 " set completeopt=noinsert,menuone,noselect
+=======
+Plug 'python-mode/python-mode',{'for': 'python','branch': 'develop'}
+set completeopt=noinsert,menuone,noselect
+>>>>>>> cb714139f58e4e18a13a60e12d0b7846a07c023e
 " Plug 'ncm2/ncm2-bufword'
 " Plug 'ncm2/ncm2-path'
 " Markdown
@@ -144,7 +171,10 @@ Plug 'dhruvasagar/vim-table-mode', { 'on': 'TableModeToggle' }
 " Plug 'neoclide/coc.nvim', {'tag': '*', 'branch': 'release'}
 " Or build from source code by use yarn: https://yarnpkg.com
 " Plug 'neoclide/coc.nvim', {'do': 'yarn install --frozen-lockfile'}
+<<<<<<< HEAD
 Plug 'majutsushi/tagbar'
+=======
+>>>>>>> cb714139f58e4e18a13a60e12d0b7846a07c023e
 call plug#end()
 
 
@@ -156,7 +186,7 @@ filetype off                  " required
 set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
 " alternatively, pass a path where Vundle should install plugins
-"call vundle#begin('~/some/path/here')
+" call vundle#begin('~/some/path/here')
 " let Vundle manage Vundle, required
 Plugin 'VundleVim/Vundle.vim'
 Plugin 'ycm-core/YouCompleteMe'
@@ -179,7 +209,11 @@ let g:python3_host_prog="/Users/wangtianyu/anaconda3/bin/python3"
 "===
 "===NerdTree映射
 "===
+<<<<<<< HEAD
 map <LEADER>n :NERDTreeToggle<CR>
+=======
+map <LEADER>t :NERDTreeToggle<CR>
+>>>>>>> cb714139f58e4e18a13a60e12d0b7846a07c023e
 set shortmess+=c
 
 " CTRL-C doesn't trigger the InsertLeave autocmd . map to <ESC> instead.
@@ -200,7 +234,11 @@ inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
 let g:pymode_python = 'python3'
 let g:pymode_trim_whitespaces = 1
 let g:pymode_doc = 1
+<<<<<<< HEAD
 let g:pymode_doc_bind = '<C-d>'
+=======
+let g:pymode_doc_bind = '<c-k>'
+>>>>>>> cb714139f58e4e18a13a60e12d0b7846a07c023e
 let g:pymode_rope_goto_definition_bind = "<C-]>"
 let g:pymode_lint = 1
 let g:pymode_lint_checkers = ['pyflakes', 'pep8', 'mccabe', 'pylint']
@@ -240,7 +278,6 @@ let g:EclimCompletionMethod = 'omnifunc'
 let g:ycm_server_python_interpreter='/usr/local/bin/python3'
 let g:ycm_global_ycm_extra_conf='~/.ycm_extra_conf.py'
 let g:ycm_show_diagnostics_ui = 1                  "关闭语法提示
-
 let g:ycm_complete_in_comments=1                   " 补全功能在注释中同样有效
 let g:ycm_confirm_extra_conf=1                     " 允许 vim 加载 .ycm_extra_conf.py 文件，不再提示
 let g:ycm_collect_identifiers_from_tags_files=1    " 开启 YCM 标签补全引擎
@@ -260,9 +297,12 @@ let g:UltiSnipsJumpBackwardTrigger="<c-h>"
 let g:UltiSnipsSnippetDirectories=[$HOME.'/.config/nvim/UltiSnips/', 'UltiSnips']
 " If you want :UltiSnipsEdit to split your window.
 let g:UltiSnipsEditSplit="vertical"
+<<<<<<< HEAD
 
 "===
 "=== tagbar 
 "===
 
 nmap <LEADER>t :TagbarToggle<CR>
+=======
+>>>>>>> cb714139f58e4e18a13a60e12d0b7846a07c023e
