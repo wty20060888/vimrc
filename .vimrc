@@ -1,5 +1,23 @@
-"常用设置
-
+" __  __               _                    
+"|  \/  |_   _  __   _(_)_ __ ___  _ __ ___ 
+"| |\/| | | | | \ \ / / | '_ ` _ \| '__/ __|
+"| |  | | |_| |  \ V /| | | | | | | | | (__ 
+"|_|  |_|\__, |   \_/ |_|_| |_| |_|_|  \___|
+"        |___/                              
+"
+"  ____          _          _   _           
+" / ___|___   __| | ___  __| | | |__  _   _ 
+"| |   / _ \ / _` |/ _ \/ _` | | '_ \| | | |
+"| |__| (_) | (_| |  __/ (_| | | |_) | |_| |
+" \____\___/ \__,_|\___|\__,_| |_.__/ \__, |
+"                                     |___/ 
+"
+"__        __                  _____ _                         
+"\ \      / /_ _ _ __   __ _  |_   _(_) __ _ _ __  _   _ _   _ 
+" \ \ /\ / / _` | '_ \ / _` |   | | | |/ _` | '_ \| | | | | | |
+"  \ V  V / (_| | | | | (_| |   | | | | (_| | | | | |_| | |_| |
+"   \_/\_/ \__,_|_| |_|\__, |   |_| |_|\__,_|_| |_|\__, |\__,_|
+"                      |___/                       |___/       
 "设置LEADER键为空格键
 let mapleader=" "
 "设置行号
@@ -22,12 +40,14 @@ exec "nohlsearch"
 noremap <LEADER><CR> :nohlsearch<CR>
 "设置忽略大小写
 set ignorecase
+"智能识别大小写
 set smartcase
 "设置显示命令提示
 set showcmd
 "设置普通模式下：命令 可以tab补全
 set wildmenu
 "分屏快捷键映射
+autocmd CompleteDone * pclose
 
 noremap J 5j
 noremap K 5k
@@ -44,7 +64,6 @@ map <LEADER>l <C-w>l
 map <LEADER>k <C-w>k
 "Lint快捷键设置
 map <LEADER>p : PymodeLintAuto<CR>
-"vim-plug插件设置
 " Compile function
 map <F5> :call CompileRunGcc()<CR>
 func! CompileRunGcc()
@@ -92,6 +111,9 @@ endfunc
 
 autocmd Filetype arduino set cindent shiftwidth=2
 
+" 自定义Run函数
+command! -nargs=1 Run :call RunBuild(<f-args>)
+
 func! RunBuild(args)
   exec "w"
     if a:args == 'uno'
@@ -102,26 +124,16 @@ func! RunBuild(args)
       exec "!arduino-cli upload -p $(find /dev//cu.wchusbserial*) --fqbn esp8266:esp8266:nodemcuv2 ../%<"
     endif
 endfunc
-" 自定义Run函数
-command! -nargs=1 Run :call RunBuild(<f-args>)
 
+"vim-plug插件设置
 call plug#begin()
 Plug 'vim-airline/vim-airline'
 Plug 'connorholyday/vim-snazzy'
 Plug 'scrooloose/nerdtree'
-" Plug 'ycm-core/YouCompleteMe'
-" assuming you're using vim-plug: https://github.com/junegunn/vim-plug
 " Plug 'ncm2/ncm2'
 " Plug 'roxma/nvim-yarp'
-Plug 'python-mode/python-mode',{'for': 'python','branch': 'develop'}
-" enable ncm2 for all buffers
-" autocmd BufEnter * call ncm2#enable_for_buffer()
-
-" IMPORTANT: :help Ncm2PopupOpen for more information
-set completeopt=noinsert,menuone,noselect
-
-" NOTE: you need to install completion sources to get completions. Check
-" our wiki page for a list of sources: https://github.com/ncm2/ncm2/wiki
+" Plug 'python-mode/python-mode',{'for': 'python','branch': 'develop'}
+" set completeopt=noinsert,menuone,noselect
 " Plug 'ncm2/ncm2-bufword'
 " Plug 'ncm2/ncm2-path'
 " Markdown
@@ -132,7 +144,7 @@ Plug 'dhruvasagar/vim-table-mode', { 'on': 'TableModeToggle' }
 " Plug 'neoclide/coc.nvim', {'tag': '*', 'branch': 'release'}
 " Or build from source code by use yarn: https://yarnpkg.com
 " Plug 'neoclide/coc.nvim', {'do': 'yarn install --frozen-lockfile'}
-Plug 'tclem/vim-arduino'
+Plug 'majutsushi/tagbar'
 call plug#end()
 
 
@@ -148,20 +160,26 @@ call vundle#begin()
 " let Vundle manage Vundle, required
 Plugin 'VundleVim/Vundle.vim'
 Plugin 'ycm-core/YouCompleteMe'
-
+" Track the engine.
+Plugin 'SirVer/ultisnips'
+" Snippets are separated from the engine. Add this if you want them:
+Plugin 'honza/vim-snippets'
 call vundle#end()            " required
 filetype plugin indent on    " required
 
-
+"===
+"===snazzy
+"===
 
 
 color snazzy
 let g:SnazzyTransparent = 1
 let g:python3_host_prog="/Users/wangtianyu/anaconda3/bin/python3"
-"NerdTree映射
-map <LEADER>t :NERDTreeToggle<CR>
-" suppress the annoying 'match x of y', 'The only match' and 'Pattern not
-" found' messages
+
+"===
+"===NerdTree映射
+"===
+map <LEADER>n :NERDTreeToggle<CR>
 set shortmess+=c
 
 " CTRL-C doesn't trigger the InsertLeave autocmd . map to <ESC> instead.
@@ -176,27 +194,13 @@ inoremap <expr> <CR> (pumvisible() ? "\<c-y>\<cr>" : "\<CR>")
 inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
 inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
 
-" wrap existing omnifunc
-" Note that omnifunc does not run in background and may probably block the
-" editor. If you don't want to be blocked by omnifunc too often, you could
-" add 180ms delay before the omni wrapper:
-"  'on_complete': ['ncm2#on_complete#delay', 180,
-"               \ 'ncm2#on_complete#omni', 'csscomplete#CompleteCSS'],
-" au User Ncm2Plugin call ncm2#register_source({
-"     \ 'name' : 'css',
-"    \ 'priority': 9,
-"    \ 'subscope_enable': 1,
-"    \ 'scope': ['css','scss'],
-"    \ 'mark': 'css',
-"    \ 'word_pattern': '[\w\-]+',
-"    \ 'complete_pattern': ':\s*',
-"    \ 'on_complete': ['ncm2#on_complete#omni', 'csscomplete#CompleteCSS'],
-"    \ })
-"python-mode conf
+"===
+"===python-mode conf
+"===
 let g:pymode_python = 'python3'
 let g:pymode_trim_whitespaces = 1
 let g:pymode_doc = 1
-let g:pymode_doc_bind = 'K'
+let g:pymode_doc_bind = '<C-d>'
 let g:pymode_rope_goto_definition_bind = "<C-]>"
 let g:pymode_lint = 1
 let g:pymode_lint_checkers = ['pyflakes', 'pep8', 'mccabe', 'pylint']
@@ -245,11 +249,20 @@ let g:ycm_cache_omnifunc=0                         " 禁止缓存匹配项，每
 let g:ycm_seed_identifiers_with_syntax=1           " 语法关键字补全
 let g:ycm_goto_buffer_command = 'horizontal-split' " 跳转打开上下分屏
 
-" ===
-" === VIM-Arduino
-" ===
-" let g:vim_arduino_map_keys = 0
-"Default:/Applications/Arduino.app/Contents/Resources/Java
-let g:vim_arduino_library_path ="/Applications/Arduino.app/Contents/Resources/Java"
-"Default: result of `$(ls/dev/tty.* | grep usb)`
-let g:vim_arduino_serial_port ="/dev/tty.usbmodem14701"
+
+"===
+"=== ultisnips
+"===
+" Trigger configuration. Do not use <tab> if you use https://github.com/Valloric/YouCompleteMe
+let g:UltiSnipsExpandTrigger="<c-l>"
+let g:UltiSnipsJumpForwardTrigger="<c-l>"
+let g:UltiSnipsJumpBackwardTrigger="<c-h>"
+let g:UltiSnipsSnippetDirectories=[$HOME.'/.config/nvim/UltiSnips/', 'UltiSnips']
+" If you want :UltiSnipsEdit to split your window.
+let g:UltiSnipsEditSplit="vertical"
+
+"===
+"=== tagbar 
+"===
+
+nmap <LEADER>t :TagbarToggle<CR>
