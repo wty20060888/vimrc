@@ -3,14 +3,24 @@
 
 # Path to your oh-my-zsh installation.
 export ZSH="/Users/wangtianyu/.oh-my-zsh"
+export ECLIPSE_HOME="~/Documents/Eclipse.app/Contents/Eclipse"
 
 # Set name of the theme to load --- if set to "random", it will
 # load a random theme each time oh-my-zsh is loaded, in which case,
 # to know which specific one was loaded, run: echo $RANDOM_THEME
 # See https://github.com/robbyrussell/oh-my-zsh/wiki/Themes
-ZSH_THEME="bira"
+ZSH_THEME="powerlevel10k/powerlevel10k"
 alias nv="$(which nvim)"
 alias nvi="nv"
+alias vi="nvi"
+alias ra="ranger"
+alias ju="jupyter console"
+alias idea="open /Applications/IntelliJ\ IDEA\ CE.app"
+alias code="open /Applications/Visual\ Studio\ Code.app"
+alias vmf="open /Applications/VMware\ Fusion.app/"
+alias chrome="open /Applications/Google\ Chrome.app"
+alias arduino="/Applications/Arduino.app/Contents/MacOS/Arduino"
+alias matlab="/Applications/Polyspace/R2019b/bin/matlab"
 # Set list of themes to pick from when loading at random
 # Setting this variable when ZSH_THEME=random will cause zsh to load
 # a theme from this variable instead of looking in ~/.oh-my-zsh/themes/
@@ -63,7 +73,7 @@ alias nvi="nv"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git)
+plugins=(git vi-mode zsh-autosuggestions zsh-syntax-highlighting)
 
 source $ZSH/oh-my-zsh.sh
 # autoload -U promptinit; promptinit
@@ -113,3 +123,36 @@ source ~/powerlevel10k-master/powerlevel10k.zsh-theme
 [[ -f ~/.p10k.zsh ]] && source ~/.p10k.zsh
 export EDITOR=/usr/local/bin/nvim
 ctags=/usr/local/bin/ctags
+
+bindkey -v
+bindkey -M vicmd "H" vi-beginning-of-line
+bindkey -M vicmd "L" vi-end-of-line
+
+function zle-keymap-select {
+	if [[ ${KEYMAP} == vicmd ]] || [[ $1 = 'block' ]]; then
+		echo -ne '\e[1 q'
+	elif [[ ${KEYMAP} == main ]] || [[ ${KEYMAP} == viins ]] || [[ ${KEYMAP} = '' ]] || [[ $1 = 'beam' ]]; then
+		echo -ne '\e[5 q'
+  fi
+}
+zle -N zle-keymap-select
+
+# Use beam shape cursor on startup.
+echo -ne '\e[5 q'
+
+# Use beam shape cursor for each new prompt.
+preexec() {
+	echo -ne '\e[5 q'
+}
+
+_fix_cursor() {
+	echo -ne '\e[5 q'
+}
+precmd_functions+=(_fix_cursor)
+
+
+zle -N zle-line-init
+zle -N zle-keymap-select
+
+KEYTIMEOUT=1
+
