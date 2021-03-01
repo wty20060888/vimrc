@@ -1,6 +1,6 @@
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
-
+# add sth 2021.3
 # Path to your oh-my-zsh installation.
 export ZSH="/Users/wangtianyu/.oh-my-zsh"
 export ECLIPSE_HOME="~/Documents/Eclipse.app/Contents/Eclipse"
