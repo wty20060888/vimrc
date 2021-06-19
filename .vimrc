@@ -55,10 +55,10 @@ noremap J 5j
 noremap K 5k
 noremap H 0
 noremap L $
-map sl :set splitright<CR>:vsplit<CR>
-map sh :set nosplitright<CR>:vsplit<CR>
-map sk :set nosplitbelow<CR>:split<CR>
-map sj :set splitbelow<CR>:split<CR>
+"map sl :set splitright<CR>:vsplit<CR>
+"map sh :set nosplitright<CR>:vsplit<CR>
+"map sk :set nosplitbelow<CR>:split<CR>
+"map sj :set splitbelow<CR>:split<CR>
 "切换窗口
 map <LEADER>h <C-w>h
 map <LEADER>j <C-w>j
@@ -114,10 +114,11 @@ endfunc
 autocmd Filetype arduino set cindent shiftwidth=2
 
 "保存时自动调用ctags
-autocmd BufWritePost * call system("ctags -R")
+
+"autocmd BufWritePost * call system("ctags -R")
 
 " 自定义Run函数
-command! -nargs=? Run :call RunBuild(<f-args>)
+command! -nargs=* Run :call RunBuild(<f-args>)
 command! IPython :call TerIPython()
 command! Jupyter :call NvimTerIPython()
 
@@ -156,16 +157,23 @@ endfunction
 
 func! RunBuild(...)
   exec "w"
-    if a:000 == ['uno']
+  if &filetype == "arduino"
+	  exec "w"
+    if a:000[0] == 'uno'
       exec "!arduino-cli compile --fqbn arduino:avr:uno ../%<"
       exec "!arduino-cli upload -p $(find /dev//cu.usbmodem*) --fqbn arduino:avr:uno ../%<"
-    elseif a:000 == ['nodemcu']
+    elseif a:000[0] == 'nodemcu'
       exec "!arduino-cli compile --fqbn esp8266:esp8266:nodemcuv2 ../%<"
       exec "!arduino-cli upload -p $(find /dev//cu.wchusbserial*) --fqbn esp8266:esp8266:nodemcuv2 ../%<"
-    else
-      if &filetype == 'c'
+      endif
+
+      elseif &filetype == "c"
         exec "!g++ -g *.c -o %<"
-        exec "!time ./%<"
+	let params=""
+	for item in a:000
+		let params=params.item." "
+	endfor
+        exec "!time ./%< ".params
       elseif &filetype == 'cpp'
         exec "!g++ % -o %<"
         exec "!time ./%<"
@@ -176,7 +184,11 @@ func! RunBuild(...)
         exec ":!time bash %"
       elseif &filetype == 'python'
         silent! exec "!clear"
-        exec "ter python3 %"
+	let params=""
+	for item in a:000
+		let params=params.item." "
+	endfor
+        exec "ter python3 % ".params
       elseif &filetype == 'html'
         exec "!open %"
       elseif &filetype == 'markdown'
@@ -184,7 +196,6 @@ func! RunBuild(...)
       elseif &filetype == 'vimwiki'
         exec "MarkdownPreview"
       endif
-    endif
 endfunc
 
 "vim-plug插件设置
@@ -201,7 +212,7 @@ Plug 'scrooloose/nerdtree'
 " Markdown
 Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install_sync() }, 'for' :['markdown', 'vim-plug'] }
 Plug 'dhruvasagar/vim-table-mode', { 'on': 'TableModeToggle' }
-" Plug 'neoclide/coc.nvim', {'branch': 'release'}
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
 " Or latest tag
 " Plug 'neoclide/coc.nvim', {'tag': '*', 'branch': 'release'}
 " Or build from source code by use yarn: https://yarnpkg.com
@@ -223,7 +234,7 @@ call vundle#begin()
 "call vundle#begin('~/some/path/here')
 " let Vundle manage Vundle, required
 Plugin 'VundleVim/Vundle.vim'
-Plugin 'ycm-core/YouCompleteMe'
+"Plugin 'ycm-core/YouCompleteMe'
 " Track the engine.
 Plugin 'SirVer/ultisnips'
 " Snippets are separated from the engine. Add this if you want them:
@@ -303,17 +314,17 @@ let g:EclimCompletionMethod = 'omnifunc'
 " ===
 " === YCM
 " ===
-let g:ycm_server_python_interpreter='/usr/local/bin/python3'
-let g:ycm_global_ycm_extra_conf='~/.ycm_extra_conf.py'
-let g:ycm_show_diagnostics_ui = 1                  "关闭语法提示
-
-let g:ycm_complete_in_comments=1                   " 补全功能在注释中同样有效
-let g:ycm_confirm_extra_conf=1                     " 允许 vim 加载 .ycm_extra_conf.py 文件，不再提示
-let g:ycm_collect_identifiers_from_tags_files=1    " 开启 YCM 标签补全引擎
-let g:ycm_min_num_of_chars_for_completion=1        " 从第一个键入字符就开始罗列匹配项
-let g:ycm_cache_omnifunc=0                         " 禁止缓存匹配项，每次都重新生成匹配项
-let g:ycm_seed_identifiers_with_syntax=1           " 语法关键字补全
-let g:ycm_goto_buffer_command = 'horizontal-split' " 跳转打开上下分屏
+"let g:ycm_server_python_interpreter='/usr/local/bin/python3'
+"let g:ycm_global_ycm_extra_conf='~/.ycm_extra_conf.py'
+"let g:ycm_show_diagnostics_ui = 1                  "关闭语法提示
+"
+"let g:ycm_complete_in_comments=1                   " 补全功能在注释中同样有效
+"let g:ycm_confirm_extra_conf=1                     " 允许 vim 加载 .ycm_extra_conf.py 文件，不再提示
+"let g:ycm_collect_identifiers_from_tags_files=1    " 开启 YCM 标签补全引擎
+"let g:ycm_min_num_of_chars_for_completion=1        " 从第一个键入字符就开始罗列匹配项
+"let g:ycm_cache_omnifunc=0                         " 禁止缓存匹配项，每次都重新生成匹配项
+"let g:ycm_seed_identifiers_with_syntax=1           " 语法关键字补全
+"let g:ycm_goto_buffer_command = 'horizontal-split' " 跳转打开上下分屏
 
 
 "===
@@ -354,3 +365,68 @@ nnoremap <buffer> <silent> <localleader>U :JupyterUpdateShell<CR>
 
 " Debugging maps
 nnoremap <buffer> <silent> <localleader>b :PythonSetBreak<CR>
+
+
+"===
+"=== coc.nvim 
+"===
+let g:coc_global_extensions = ["coc-json", "coc-vimlsp"]
+" Having longer updatetime (default is 4000 ms = 4 s) leads to noticeable
+" delays and poor user experience.
+set updatetime=100
+" Use `[g` and `]g` to navigate diagnostics
+" Use `:CocDiagnostics` to get all diagnostics of current buffer in location list.
+nmap <silent> <leader>- <Plug>(coc-diagnostic-prev)
+nmap <silent> <leader>= <Plug>(coc-diagnostic-next)
+
+ 
+" GoTo code navigation.
+nmap <silent> gd <Plug>(coc-definition)
+nmap <silent> gy <Plug>(coc-type-definition)
+nmap <silent> gi <Plug>(coc-implementation)
+nmap <silent> gr <Plug>(coc-references)
+
+" Use K to show documentation in preview window.
+nnoremap <silent> <leader>h :call <SID>show_documentation()<CR>
+
+function! s:show_documentation()
+  if (index(['vim','help'], &filetype) >= 0)
+    execute 'h '.expand('<cword>')
+  elseif (coc#rpc#ready())
+    call CocActionAsync('doHover')
+  else
+    execute '!' . &keywordprg . " " . expand('<cword>')
+  endif
+endfunction
+ 
+" Highlight the symbol and its references when holding the cursor.
+autocmd CursorHold * silent call CocActionAsync('highlight')
+ 
+" Use <c-o> to trigger completion.
+if has('nvim')
+  inoremap <silent><expr> <c-o> coc#refresh()
+else
+  inoremap <silent><expr> <c-@> coc#refresh()
+endif
+" Make <CR> auto-select the first completion item and notify coc.nvim to
+" format on enter, <cr> could be remapped by other vim plugin
+inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm()
+                              \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
+
+augroup mygroup
+  autocmd!
+  " Setup formatexpr specified filetype(s).
+  autocmd FileType typescript,json setl formatexpr=CocAction('formatSelected')
+  " Update signature help on jump placeholder.
+  autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
+augroup end
+
+" Remap <C-f> and <C-b> for scroll float windows/popups.
+if has('nvim-0.4.0') || has('patch-8.2.0750')
+  nnoremap <silent><nowait><expr> <C-j> coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-f>"
+  nnoremap <silent><nowait><expr> <C-k> coc#float#has_scroll() ? coc#float#scroll(0) : "\<C-b>"
+  inoremap <silent><nowait><expr> <C-j> coc#float#has_scroll() ? "\<c-r>=coc#float#scroll(1)\<cr>" : "\<Right>"
+  inoremap <silent><nowait><expr> <C-k> coc#float#has_scroll() ? "\<c-r>=coc#float#scroll(0)\<cr>" : "\<Left>"
+  vnoremap <silent><nowait><expr> <C-j> coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-f>"
+  vnoremap <silent><nowait><expr> <C-k> coc#float#has_scroll() ? coc#float#scroll(0) : "\<C-b>"
+endif

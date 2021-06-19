@@ -1,6 +1,6 @@
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
-# add sth 2021.3
+
 # Path to your oh-my-zsh installation.
 export ZSH="/Users/wangtianyu/.oh-my-zsh"
 export ECLIPSE_HOME="~/Documents/Eclipse.app/Contents/Eclipse"
@@ -116,8 +116,7 @@ source $ZSH/oh-my-zsh.sh
 if [ -f ~/.bash_profile ];then
 	source ~/.bash_profile
 fi
-export PATH=$PATH:~/C++
-source ~/powerlevel10k-master/powerlevel10k.zsh-theme
+export PATH=$PATH:/usr/local/Cellar/llvm/11.1.0/bin
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ -f ~/.p10k.zsh ]] && source ~/.p10k.zsh
@@ -156,3 +155,4 @@ zle -N zle-keymap-select
 
 KEYTIMEOUT=1
 
+source ~/powerlevel10k/powerlevel10k.zsh-theme
